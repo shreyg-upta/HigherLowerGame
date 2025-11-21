@@ -458,7 +458,7 @@ export default function HigherLowerGame() {
       if (total === 0) {
         chosen = pickRandom(candidates);
       } else {
-        let r = Math.random() * 1000;
+        let r = Math.random() * 10000;
         console.log("total weight", total, "random r", r);
         for (let i = 0; i < candidates.length; i++) {
           
