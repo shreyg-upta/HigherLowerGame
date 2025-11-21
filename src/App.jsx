@@ -444,11 +444,11 @@ export default function HigherLowerGame() {
 
       // build weights according to rank (up to 10)
       const weights = candidates.map((_, i) => {
-        if (i === 0) return 50;
-        if (i === 1) return 20;
-        if (i === 2) return 10;
-        if (i === 3) return 5;
-        if (i === 4) return 5;
+        if (i === 0) return 70;
+        if (i === 1) return 35;
+        if (i === 2) return 15;
+        if (i === 3) return 10;
+        if (i === 4) return 10;
         // 6th-10th (i=5..9) -> 2% each
         return 2;
       }).slice(0, candidates.length);
@@ -458,12 +458,22 @@ export default function HigherLowerGame() {
       if (total === 0) {
         chosen = pickRandom(candidates);
       } else {
-        let r = Math.random() * total;
+        let r = Math.random() * 1000;
+        console.log("total weight", total, "random r", r);
         for (let i = 0; i < candidates.length; i++) {
+          
+          // if(candidates[i].value > prev.value){
+            r-=(candidates[i].value*2)+10;
+          // }
           r -= weights[i];
+          console.log("candidate is", candidates[i].value, "prev is", prev.value, "r is", r);
           if (r <= 0) { chosen = candidates[i]; break; }
+          if(i==candidates.length-1){
+          i=-1; r/=2;
+        }
         }
         if (!chosen) chosen = candidates[candidates.length - 1];
+        
       }
 
       // remove chosen from remainingKeys
@@ -472,6 +482,7 @@ export default function HigherLowerGame() {
       // set next match: prev (last introduced) vs chosen (new challenger)
       setA(prev);
       setB(chosen);
+      console.log(remainingKeys.length, "remaining keys after choosing", chosen.key);
       setMessage("");
     } catch (e) {
       setMessage("Failed to fetch next round: " + (e?.message || String(e)));
